@@ -1,0 +1,25 @@
+# Local environments and caches
+.venv*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+Thumbs.db
+# Credentials and machine-specific settings
+.env
+.env.*
+!.env.example
+config/local.json
+# Raw monitor captures and working media stay local; publish selected evidence only.
+data/raw/
+data/processed/
+evidence/private/
+logs/
+upstream/
+*.mp4
+*.mov
+*.avi
+*.zip
+# Temporary CAD and slicing projects
+*.gcode
+*.3mf

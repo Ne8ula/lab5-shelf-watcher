@@ -1,0 +1,21 @@
+{
+  "project": "Shelf Watcher",
+  "status": "proposed_not_implemented_or_calibrated",
+  "camera_index": 0,
+  "monitor_crop_xywh": null,
+  "class_names": ["WORK", "VIDEO", "NEUTRAL"],
+  "model_path": "models/model.tflite",
+  "labels_path": "models/labels.txt",
+  "sample_interval_seconds": 1.0,
+  "minimum_top_score": 0.85,
+  "video_persistence_seconds": 15.0,
+  "reminder_cooldown_seconds": 60.0,
+  "break_duration_seconds": 300.0,
+  "maximum_frame_gap_seconds": 3.0,
+  "reset_video_timer_on_uncertain_or_nonvideo": true,
+  "reset_video_timer_on_override_transition": true,
+  "work_video_override": "manual_toggle",
+  "reminder_text": "Hey. Back to work.",
+  "reminder_audio_path": "assets/audio/reminder.wav",
+  "display_dimensions_confirmed_from_label": [240, 135]
+}

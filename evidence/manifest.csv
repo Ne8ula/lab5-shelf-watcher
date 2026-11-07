@@ -1,0 +1,11 @@
+evidence_id,description,status,path_or_url,timestamps,notes
+PREP,Environment and setup,pending,,,
+A-PYT,PyTorch exploration,pending,,,
+A-MP,Pinch and Quiet Coyote,pending,,,
+A-MOON,Moondream questions and timing,pending,,,
+A-TM,Stock demo and custom training export deployment,pending,,,
+B-SYSTEM,Integrated interaction and experiments,pending,,,
+C-FAULTS,Failures and recovery,pending,,,
+D-CHAR,Seven characterization questions on video,pending,,,
+FINAL-DEMO,Finished system in use,pending,,,
+FINAL-PHOTO,Physical robot and camera arrangement,pending,,,
