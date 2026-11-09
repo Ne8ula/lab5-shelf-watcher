@@ -6,13 +6,13 @@
 
 **Deadline:** None specified
 
-**Status:** Design and submission scaffold. Hardware execution, training, implementation, and demonstrations are pending.
+**Status:** I've completed and documented A1 (PyTorch), A2 (MediaPipe), and A3 (Moondream). The remaining sections are still in progress; I haven't demonstrated the integrated Shelf Watcher yet.
 
 Shelf Watcher is a small robot mascot placed on a shelf beside a work desk. A USB webcam observes the physical monitor, and a custom image classifier recognizes selected work, video, and neutral screen appearances. Sustained video detection is intended to trigger a spoken reminder and a suspicious expression on a miniPiTFT face. Break and work-video overrides give the user control over interruptions.
 
 **Scope:** optical camera capture only; no screen sharing, screenshot API, browser history, or application telemetry. A screen appearance is not proof that the user is unproductive. A tutorial can be work; a static page can be distracting.
 
-This document contains completed design rationale and explicitly labeled **planned**, **hypothesized**, and **PENDING** items. No performance measurements, successful hardware runs, fabricated observations, or finished media are claimed.
+This document separates the completed A1–A3 experiments from design rationale and explicitly labeled **planned**, **hypothesized**, and **PENDING** work. These experiments do not establish performance of the proposed WORK/VIDEO/NEUTRAL classifier or integrated robot.
 
 ## Navigation
 
@@ -26,63 +26,98 @@ This document contains completed design rationale and explicitly labeled **plann
 
 ## Preparation
 
-The target is a Raspberry Pi 4 with an EH-1080P6 USB webcam (label: DC 5V), a speaker, and an Adafruit miniPiTFT labeled 240×135. These are owner-reported inventory, not verified operating connections. Raspberry Pi OS release, CPU architecture, Python version, camera capture, speaker interface, and display operation remain PENDING.
+The target is a Raspberry Pi 4, USB webcam, speaker, and Adafruit miniPiTFT labeled 240×135. A1 ran on the Pi with a course-provided USB webcam; its model is unknown. The earlier inventory listed an EH-1080P6, but that identity is not confirmed for the A1 recording. The reported environment is Debian 12 (Bookworm), aarch64 / 64-bit, Python 3.11.2, PyTorch 2.9.0+cpu, TorchVision 0.24.0, and OpenCV 4.11.0. USB camera capture was verified for A1; speaker and display operation remain PENDING.
 
 The robot will use a simple rounded box body, integrated feet, a removable back, a screen face, and an independently aimable chest camera. Initial construction leaves the Pi and speaker behind the mascot. The exact display connector clearance and all enclosure dimensions must be measured before CAD or printing. The servo and spare OLED are excluded from the first build.
 
 | Preparation task | Status / evidence |
 |---|---|
-| Obtain Fall2025 starter files | PENDING on Pi; pinned retrieval instructions in build plan |
+| Obtain Fall2025 starter files | Retrieved on Pi; unchanged `infer.py` used for A1, per author confirmation |
 | Establish VNC desktop access | PENDING |
-| Install and record dependency versions | PENDING |
-| Verify camera, speaker, and display | PENDING |
+| Install and record dependency versions | A1 versions reported above; other demo environments remain PENDING |
+| Verify camera, speaker, and display | A1 USB camera verified; speaker and display remain PENDING |
 | Read OpenCV, PyTorch, MediaPipe, and Teachable Machine introductions | PENDING author reading |
 | Read Bellotti et al., *Making Sense of Sensing Systems* | PENDING author reading; source linked below |
 
 After reading the paper, relate its five questions to the actual interface: how to address the device, recognize its attention, understand available actions, interpret its response, and recover from errors. Record the author's interpretation in the notebook; this prompt is not a completed reading reflection.
 
-## Part A — Play with sense-making algorithms
+## Part A
 
 ### A1. PyTorch / MobileNet
 
-**Planned exploration:** Run `infer.py` on the Pi, present a mug, bottle, book, and other household objects, and compare ordinary and difficult views. Inspect preprocessing and camera settings; compare one resolution/FPS configuration change. Record measured inference throughput rather than adopting the assignment's example FPS as a result.
+**Experiment:** I ran the course's unchanged `infer.py` on a Raspberry Pi 4, viewed its output through SSH, and held the USB webcam toward six objects in sequence: a small ceramic teapot, a computer mouse, a simple wooden Santa figure, a mug, a candle in a white container, and a complex Gundam/Batman figure. 
 
-**Design rationale:** A general pretrained image classifier is useful for exploring recognition without training a custom dataset. Its stock object labels are not the chosen WORK/VIDEO/NEUTRAL categories, motivating a custom model for Shelf Watcher.
+**Configuration and code:** I used the provided infer.py script without changing it. It uses MobileNet v2 to classify the webcam image and prints its top two predictions for each frame.
 
-| Observation | Result |
+All **425 frames** in the saved log have shape `(144, 176, 3)`: the camera actually supplied **176 × 144 pixels**, not the requested square resolution. The first two FPS reports were **0.67** and **2.75**; the remaining 52 reports ranged from **6.03–7.40 FPS**, with a median of **7.24 FPS**. These are the script's periodic processing-loop throughput readings, including capture, preprocessing, inference, and printing. They are not the camera's hardware FPS or an isolated inference benchmark.
+
+| Object / observation | Result and interpretation |
 |---|---|
-| Objects tested and predicted top labels | PENDING |
-| Successful classification | PENDING |
-| Incorrect classification and possible explanation | PENDING |
-| Baseline and changed configuration / measured FPS | PENDING |
-| Evidence | PENDING — A-PYT in evidence index |
+| Ceramic teapot | The early sequence produced `teapot`, including a 94.59% top score; alternatives included `coffeepot` and `cup`. |
+| Computer mouse |The following sequence produced `mouse, computer mouse`, reaching a 99.88% top score. This was a clear example of a familiar category being recognized. |
+| Wooden Santa |Predictions were unstable and did not identify Santa; the corresponding part of the log includes `lipstick` and `Christmas stocking`.  |
+| Mug |The mug sequence included `cup` and `coffee mug`. Their highest top scores in the run were 89.28% and 64.36%, respectively. |
+| Candle in a white container |A `candle` label appeared briefly in the log, but the object was mistaken as cups, and many other random items. |
+| Gundam/Batman figure | The figure sequence produced unrelated labels including `aircraft carrier` and `syringe`; the terminal still below shows a 64.68% `aircraft carrier` score. |
+
+Note: Object transitions, hands, and the background (although I ensured the background was as unobstrusive as possible), were also part of the captured scene,
+
+**What failed and why:** Both the simple Santa and the complex figure were misclassified. This demonstrates a limitation of the recognition system. The supplied [class list](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/classes.json) has no Santa, Gundam, or Batman, or anything related for its category, so the model cannot directly output those identities. A candle container can resemble a cup because of varying viewpoint and low captured resolution are plausible additional contributors, but this experiment did not isolate their effects. Frame-by-frame classification explains why the displayed labels can switch rapidly.
+
+
+**Evidence:** [Object demonstration (51 s)](evidence/a1/objects.mp4) · [Terminal recording (63 s)](evidence/a1/terminal.mp4) · [Text log](evidence/a1/a1-final-20261109-122444-WnQoJV.txt) · 
+
+![Six objects tested, in presentation order: teapot, mouse, Santa, mug, candle, and Gundam/Batman figure](evidence/a1/objects-contact-sheet.jpg)
+
+Phone-video stills at 00:01, 00:07, 00:14, 00:21, 00:30, and 00:44
+
+![Terminal output at 00:52 showing unrelated aircraft-carrier and syringe predictions](evidence/a1/terminal-52s.png)
 
 ### A2. MediaPipe
 
-**Planned exploration:** Run `hand_pose.py`, demonstrate both pinch percentage control and Quiet Coyote, and test distance, rotation, and partial occlusion. See the build guide for identified starter-code fixes.
+I ran `hand_pose.py` on the Pi and tested hand tracking, pinch control, Quiet Coyote, and recovery. The dots followed my fingers, and opening or closing the gap between my thumb and index finger changed the percentage and audio volume.
 
-**Proposed pose interaction:** A deliberate hand gesture could pause reminders or acknowledge an alert. Landmark positions support continuous controls such as a pinch-controlled reminder delay. Shelf Watcher's final camera faces the monitor, so physical buttons are the simpler planned override; gesture control remains an explored alternative, not an implemented feature.
+I also moved my hand toward and away from the camera while trying to keep the same finger gap. The volume still changed: the display went from **14% at 0:45 to 91% at 0:49**. The script measures the gap in image pixels, so moving closer makes it look bigger; it doesn't account for depth.
 
-| Observation | Result |
-|---|---|
-| Pinch control and resulting percentage/audio behavior | PENDING |
-| Quiet Coyote and resulting percentage/audio behavior | PENDING |
-| Lost tracking / false trigger / distance sensitivity | PENDING |
-| Evidence | PENDING — A-MP |
+Quiet Coyote silenced the audio and showed **0% at 1:00**. When I rotated my hand sideways, the dots overlapped and the gesture stopped registering, even though my hand was still tracked. By **1:05**, the display showed **18%** and the audio had resumed. Rotation changes the distances the gesture rule checks. I then returned to pinch control and could adjust the volume again.
+
+For the prototype in future parts,, I could use a gesture to pause reminders and a pinch to set the pause length. After this test, I'd keep the pause active until a clear resume action, so turning my hand wouldn't accidentally restart reminders.
+
+**Evidence:** [Full demo with audio (1:49)](evidence/a2/hand-tracking.mp4) · [Video timestamps and file details](evidence/a2/README.md).
+
+![Quiet Coyote at 1:00 shows 0%; after rotating my hand, the gesture label disappears and the display shows 18% at 1:05](evidence/a2/quiet-coyote-rotation.jpg)
+
+*Left: Quiet Coyote recognized. Right: recognition drops during rotation, while hand tracking continues.*
 
 ### A3. Moondream
 
-**Planned exploration:** Start Ollama, pull Moondream, run `moondream_simple.py`, and ask a description question plus a targeted follow-up about a captured scene. Record exact prompts, answers, and elapsed times. Separate first-request loading time from any later warm request if measured.
+I ran Moondream through Ollama on the Pi in CPU-only mode, using `moondream_simple.py` with a separate timing wrapper. I arranged a mug, a ceramic teapot, and a computer mouse in front of the webcam against a dark background. The script captured one image, then used that same image for all three questions.
 
-**Design rationale:** A delayed image description could support an occasional desk summary. A reminder loop benefits from short, predictable responses, so a small custom classifier is the proposed final approach. The assignment warns that Moondream responses may take minutes on a Pi; actual timing here is PENDING. Moondream observes a captured still in this demo, not a continuously refreshed video.
+The first question, **“What do you see in this image? Describe it.”**, took **237.971 seconds**, almost four minutes. Moondream identified a teapot and a computer mouse, described the teapot as pink with a floral design, and said they were on a wooden table. When I asked **“What objects are visible in this image?”**, it again named the teapot and mouse and took **27.407 seconds**. Neither answer mentioned the mug visible in my setup photo. The pink teapot and wooden surface descriptions also don't match that photo, although the photo shows the setup from a different viewpoint than the webcam.
 
-| Observation | Result |
-|---|---|
-| Captured scene and exact question(s) | PENDING |
-| Exact answer(s), including errors | PENDING |
-| Request timing and Pi environment | PENDING |
-| How the measured delay affected the experience | PENDING |
-| Evidence | PENDING — A-MOON |
+I then asked **“Which object has a handle and a spout?”** It answered **“urn”** in **3.628 seconds**. This was the wrong identification for my teapot, even though the earlier descriptions called it a teapot. The script sends each question independently, so it doesn't carry the earlier answers into the next request. The answers were inconsistent across questions; I didn't isolate why.
+
+These are times from sending each request through printing its completed answer, including image encoding, but excluding camera capture and my typing. This was a rerun with different questions and answer lengths, so the timing difference doesn't establish how much time model loading took.
+
+For Shelf Watcher, a response arriving almost four minutes after capture could describe a scene that has already changed. I'd use this kind of description for an occasional desk summary, with a visible processing state and capture time. For timely reminders, I'd continue testing the smaller custom classifier planned for the next part. The quick but incorrect “urn” answer also shows why speed alone isn't enough to judge whether the response is useful.
+
+**Evidence:** [Exact questions, answers, timings, and file details](evidence/a3/README.md). My setup photo and all three terminal screenshots are shown below.
+
+<img src="evidence/a3/setup.png" alt="Webcam facing a mug, ceramic teapot, and black computer mouse against a dark backdrop" width="560">
+
+*My physical setup. This is an external photo, not the webcam's captured input image.*
+
+![Moondream's first description names the teapot and mouse and takes 237.971 seconds](evidence/a3/request-1-description.png)
+
+*Request 1: the initial description takes almost four minutes.*
+
+![Moondream answers the object-list question in 27.407 seconds, naming the teapot and mouse](evidence/a3/request-2-objects.png)
+
+*Request 2: the object list again leaves out the mug visible in the setup photo.*
+
+![Moondream answers the handle-and-spout question with urn in 3.628 seconds](evidence/a3/request-3-urn.png)
+
+*Request 3: a faster answer, but the wrong identification for the teapot.*
 
 ### A4. Teachable Machine
 

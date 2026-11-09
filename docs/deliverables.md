@@ -6,19 +6,20 @@ Source: [Fall2025 assignment](https://github.com/IRL-CT/Interactive-Lab-Hub/blob
 
 - [x] Identify author: Hao Chen Xiong; collaborators: none.
 - [x] Choose and document Shelf Watcher concept and inventory.
-- [ ] Retrieve course starter files on Pi.
+- [x] Retrieve course starter files on Pi (A1 executed; unchanged starter script confirmed by author).
 - [ ] Verify Pi, webcam, VNC, audio, and dependencies; record environment.
 - [ ] Read OpenCV, PyTorch, MediaPipe, and Teachable Machine introductions.
 - [ ] Read Bellotti et al. and record reflection.
 
 ## A — Play
 
-- [ ] A-PYT: run PyTorch/MobileNet with several objects; read `infer.py`; capture pictures/video and observations.
-- [ ] A-PYT: record camera configuration and actual performance; configuration comparison is our proposed experiment.
-- [ ] A-MP: demonstrate pinch percentage control and Quiet Coyote.
-- [ ] A-MP: explain a face/hand/body position-based interaction; design draft exists in README, review after testing.
-- [ ] A-MOON: run Ollama/Moondream demo with camera image and question(s); record response(s).
-- [ ] A-MOON: discuss delayed responses and suitable interactions, grounded in measured timing.
+- [x] A-PYT: run PyTorch/MobileNet with several objects; capture pictures/video and observations. [Evidence](../evidence/a1/README.md).
+- [ ] A-PYT: author reads `infer.py` and becomes familiar with the code (completion not yet confirmed).
+- [x] A-PYT: record requested camera configuration, observed frame size, and actual performance. Configuration/model changes are optional in the assignment; the documented run used the unchanged starter script.
+- [x] A-MP: demonstrate hand tracking, pinch percentage/audio control, Quiet Coyote, and recovery; test distance and rotation. [Video and evidence](../evidence/a2/README.md).
+- [x] A-MP: explain a position-based interaction and how the observed failure affects its design. [A2 reflection](../README.md#a2-mediapipe); proposed feature, not implemented.
+- [x] A-MOON: run Ollama/Moondream demo with camera image and question(s); record response(s). [Setup photo, three terminal screenshots, transcription, and timings](../evidence/a3/README.md).
+- [x] A-MOON: discuss delayed responses and suitable interactions, grounded in measured timing. [A3 reflection](../README.md#a3-moondream).
 - [ ] A-TM: run supplied Teachable Machine example.
 - [ ] A-TM: train own Standard image model; aim for over 150 varied examples per class; include neutral/background examples.
 - [ ] A-TM: preview and iterate; record changes.

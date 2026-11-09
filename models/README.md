@@ -2,6 +2,11 @@
 
 No trained model exists in this repository yet. After training, place the exported `model.tflite` and `labels.txt` here. Do not use the course's stock model as evidence of having trained a custom model.
 
+For automatic webcam bursts or extraction from existing optical recordings, see
+[short-burst sample collection](../docs/sample-collection.md). The collector has
+been checked with a synthetic video fixture; real webcam collection and model
+training remain pending.
+
 Record before deployment:
 
 - Training/export date and model revision: PENDING.

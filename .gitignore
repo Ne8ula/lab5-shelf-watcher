@@ -20,6 +20,11 @@ upstream/
 *.mov
 *.avi
 *.zip
+# Selected A1 submission recordings (raw working media remains ignored).
+!evidence/a1/objects.mp4
+!evidence/a1/terminal.mp4
+# Selected A2 submission recording.
+!evidence/a2/hand-tracking.mp4
 # Temporary CAD and slicing projects
 *.gcode
 *.3mf

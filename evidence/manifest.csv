@@ -1,8 +1,8 @@
 evidence_id,description,status,path_or_url,timestamps,notes
-PREP,Environment and setup,pending,,,
-A-PYT,PyTorch exploration,pending,,,
-A-MP,Pinch and Quiet Coyote,pending,,,
-A-MOON,Moondream questions and timing,pending,,,
+PREP,Environment and setup,partial,../README.md,,A1 environment and camera verified; speaker display and other demo environments pending
+A-PYT,PyTorch exploration,documented_local,a1/README.md,objects 00:00-00:51; terminal 00:00-01:03,Same run confirmed by author; log and stills included; remote access not verified
+A-MP,Hand tracking and pinch and Quiet Coyote,documented_local,a2/README.md,00:35 pinch closed; 00:45-00:49 distance; 01:00 coyote; 01:05 rotation failure; 01:10 recovery,Original video with audio and selected stills; interaction proposal in README; remote access not verified
+A-MOON,Moondream questions and timing,documented_local,a3/README.md,2026-11-09 14:06:46-05:00; 14:10:56-05:00; 14:11:29-05:00,Three screenshots and setup photo included with transcription; 237.971s / 27.407s / 3.628s; raw Pi image and log not included
 A-TM,Stock demo and custom training export deployment,pending,,,
 B-SYSTEM,Integrated interaction and experiments,pending,,,
 C-FAULTS,Failures and recovery,pending,,,
