@@ -65,7 +65,7 @@ def main():
         segments=segments,
         source_sha256={name:hashlib.sha256((folder/name).read_bytes()).hexdigest()
                        for name in ('predictions.csv','annotations.csv')},
-        method='Manual interval labels: camera-only images reviewed every 5 frames (1 second), with every frame inspected around identified class boundaries. Class labels interpolated within continuous scenes. User confirmed white documents as WORK and wallpaper with small terminal as NEUTRAL. Predictions were not used to choose labels. Frame-weighted descriptive results for this one correlated recording; no generalization estimate.')
+        method='Manual interval labels: camera-only images reviewed every 5 frames (1 second), with every frame inspected around identified class boundaries. Class labels interpolated within continuous scenes. White documents were labeled WORK and wallpaper with a small terminal was labeled NEUTRAL. Predictions were not used to choose labels. Frame-weighted descriptive results for this one correlated recording; no generalization estimate.')
     (folder/'summary.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
     with (folder/'scored-predictions.csv').open('w', newline='', encoding='utf-8') as f:
         writer=csv.DictWriter(f,fieldnames=list(rows[0]))

@@ -485,5 +485,5 @@
     "predictions.csv": "f11f0084d8c3f6c6b657cb5282c6572fdfa6f2445d271457077b6c7b6be04402",
     "annotations.csv": "7de808e3f34e2cb2521eeecadbc0bd864bc9004a1295b7eb9301cce4bccab940"
   },
-  "method": "Manual interval labels: camera-only images reviewed every 5 frames (1 second), with every frame inspected around identified class boundaries. Class labels interpolated within continuous scenes. User confirmed white documents as WORK and wallpaper with small terminal as NEUTRAL. Predictions were not used to choose labels. Frame-weighted descriptive results for this one correlated recording; no generalization estimate."
+  "method": "Manual interval labels: camera-only images reviewed every 5 frames (1 second), with every frame inspected around identified class boundaries. Class labels interpolated within continuous scenes. White documents were labeled WORK and wallpaper with a small terminal was labeled NEUTRAL. Predictions were not used to choose labels. Frame-weighted descriptive results for this one correlated recording; no generalization estimate."
 }

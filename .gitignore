@@ -5,12 +5,6 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 Thumbs.db
-/.codex/
-/.claude/
-/.agents/
-/.cursor/
-/AGENTS.md
-/CLAUDE.md
 /runs/
 /tmp/
 # Credentials and machine-specific settings

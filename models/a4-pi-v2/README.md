@@ -20,11 +20,10 @@ The separate Kiyo baseline is retained in [a4-kiyo-v1](../a4-kiyo-v1/README.md).
 - Editable project backup and full training captures remain in ignored local
   `data/processed/pi-training-v2/` and `data/raw/pi-v2/`.
 
-[Training and export evidence](../../evidence/a4/README.md).
-[Manual video/log evaluation](../../evidence/a4/manual-20261110-163239/README.md):
+[Training and export evidence](../../README.md#a4-teachable-machine).
+[Manual video/log evaluation](../../README.md#a4-teachable-machine):
 94.7% on 872 labeled frames in one recording, with 25 transitions excluded.
-Bright fullscreen video and a different wallpaper exposed failures. This is an
-A4 exploration model; the Part B reminder interaction is not implemented.
+Bright fullscreen video and a different wallpaper exposed failures. This model also drives the finished Shelf Watcher interaction.
 
 For a headless diagnostic run on the Pi (no VNC preview needed):
 
@@ -32,13 +31,12 @@ For a headless diagnostic run on the Pi (no VNC preview needed):
 cd ~/a4-shelf-watcher
 source ~/venv-tml/bin/activate
 python scripts/a4_camera.py live \
-  --model a4-pi-v2/model.tflite \
-  --labels a4-pi-v2/labels.txt \
+  --model models/a4-pi-v2/model.tflite \
+  --labels models/a4-pi-v2/labels.txt \
   --crop 640:400:0:0 \
   --seconds 60 --fps 2 \
   --output runs/manual-check
 ```
 
-This diagnostic command saves predictions and selected images, not MP4. The
-manual test used the separate recorder supplied in chat. With one monitor,
+This diagnostic command saves predictions and selected images. With one monitor,
 minimize the SSH/VNC window during capture so it does not replace the test scene.

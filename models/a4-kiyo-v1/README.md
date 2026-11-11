@@ -27,4 +27,4 @@ aspect-fit resizing and black padding, then BGR-to-RGB conversion. The model
 accepts RGB bytes directly; output scores are dequantized with the recorded
 scale and zero point. Scores are not calibrated correctness probabilities.
 
-[Actual Pi result and limitations](../../evidence/a4/README.md).
+[Actual Pi result and limitations](../../README.md#a4-teachable-machine).

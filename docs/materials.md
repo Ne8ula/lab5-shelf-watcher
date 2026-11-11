@@ -11,7 +11,7 @@
 | Phone camera | Physical demonstrations with speaker audio |
 
 The speaker remains separate from the enclosure. The webcam, face, cable openings,
-and interior are shown in the [finished-build photos](../evidence/part2/README.md#finished-build-photographs).
+and interior are shown in the [finished-build photos](../README.md#part-2--finished-system-in-use).
 No servo or printed enclosure is used in this build.
 
 ## Software

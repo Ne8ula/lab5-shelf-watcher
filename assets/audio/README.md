@@ -17,4 +17,4 @@ of qualifying VIDEO and repeats without cooldown or overlapping playback.
 [Source names, conversion details, and hashes](receipt.json).
 
 The Leviathan V2 was used for the recorded beep and voice experiments.
-[Phone videos and playback logs](../../evidence/b1/README.md). [Transfer, playback test, and experiment commands](../../docs/part-b-run.md).
+[Phone videos and playback logs](../../README.md#part-b-shelf-watcher-interaction). [Transfer, playback test, and experiment commands](../../docs/part-b-run.md).
