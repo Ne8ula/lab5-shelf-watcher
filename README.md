@@ -1,51 +1,14 @@
-# Shelf Watcher — Lab 5: Observant Systems
+# Lab 5: Observant Systems
 
 **Author:** Hao Chen Xiong
 
-**Collaborators:** None
-
-**Deadline:** None specified
-
-**Status:** I've completed and documented A1 (PyTorch), A2 (MediaPipe), and A3 (Moondream). The remaining sections are still in progress; I haven't demonstrated the integrated Shelf Watcher yet.
-
-Shelf Watcher is a small robot mascot placed on a shelf beside a work desk. A USB webcam observes the physical monitor, and a custom image classifier recognizes selected work, video, and neutral screen appearances. Sustained video detection is intended to trigger a spoken reminder and a suspicious expression on a miniPiTFT face. Break and work-video overrides give the user control over interruptions.
-
-**Scope:** optical camera capture only; no screen sharing, screenshot API, browser history, or application telemetry. A screen appearance is not proof that the user is unproductive. A tutorial can be work; a static page can be distracting.
-
-This document separates the completed A1–A3 experiments from design rationale and explicitly labeled **planned**, **hypothesized**, and **PENDING** work. These experiments do not establish performance of the proposed WORK/VIDEO/NEUTRAL classifier or integrated robot.
-
-## Navigation
-
-- [Requirement-by-requirement checklist](docs/deliverables.md)
-- [Build sequence and setup](docs/build-plan.md)
-- [Hardware, cables, and tools](docs/materials.md)
-- [Test protocol](docs/test-plan.md) and [trial sheet](experiments/trials.csv)
-- [Experiment notebook](experiments/notebook.md)
-- [Evidence index and recording plan](evidence/README.md)
-- [Source references](docs/sources.md)
-
-## Preparation
-
-The target is a Raspberry Pi 4, USB webcam, speaker, and Adafruit miniPiTFT labeled 240×135. A1 ran on the Pi with a course-provided USB webcam; its model is unknown. The earlier inventory listed an EH-1080P6, but that identity is not confirmed for the A1 recording. The reported environment is Debian 12 (Bookworm), aarch64 / 64-bit, Python 3.11.2, PyTorch 2.9.0+cpu, TorchVision 0.24.0, and OpenCV 4.11.0. USB camera capture was verified for A1; speaker and display operation remain PENDING.
-
-The robot will use a simple rounded box body, integrated feet, a removable back, a screen face, and an independently aimable chest camera. Initial construction leaves the Pi and speaker behind the mascot. The exact display connector clearance and all enclosure dimensions must be measured before CAD or printing. The servo and spare OLED are excluded from the first build.
-
-| Preparation task | Status / evidence |
-|---|---|
-| Obtain Fall2025 starter files | Retrieved on Pi; unchanged `infer.py` used for A1, per author confirmation |
-| Establish VNC desktop access | PENDING |
-| Install and record dependency versions | A1 versions reported above; other demo environments remain PENDING |
-| Verify camera, speaker, and display | A1 USB camera verified; speaker and display remain PENDING |
-| Read OpenCV, PyTorch, MediaPipe, and Teachable Machine introductions | PENDING author reading |
-| Read Bellotti et al., *Making Sense of Sensing Systems* | PENDING author reading; source linked below |
-
-After reading the paper, relate its five questions to the actual interface: how to address the device, recognize its attention, understand available actions, interpret its response, and recover from errors. Record the author's interpretation in the notebook; this prompt is not a completed reading reflection.
+**Video playback:** Open a video link to view or download the MP4, then enable sound in your player. The finished-companion demo, Part B experiments, Part D walkthroughs, and A2 demo include recorded audio. The A1 terminal recording and A4 webcam recording are silent.
 
 ## Part A
 
 ### A1. PyTorch / MobileNet
 
-**Experiment:** I ran the course's unchanged `infer.py` on a Raspberry Pi 4, viewed its output through SSH, and held the USB webcam toward six objects in sequence: a small ceramic teapot, a computer mouse, a simple wooden Santa figure, a mug, a candle in a white container, and a complex Gundam/Batman figure. 
+**Experiment:** I ran the course's unchanged `infer.py` on a Raspberry Pi 4, viewed its output through SSH, and held the USB webcam toward six objects in sequence: a small ceramic teapot, a computer mouse, a simple wooden Santa figure, a mug, a candle in a white container, and a complex Gundam/Batman figure.
 
 **Configuration and code:** I used the provided infer.py script without changing it. It uses MobileNet v2 to classify the webcam image and prints its top two predictions for each frame.
 
@@ -60,12 +23,12 @@ All **425 frames** in the saved log have shape `(144, 176, 3)`: the camera actua
 | Candle in a white container |A `candle` label appeared briefly in the log, but the object was mistaken as cups, and many other random items. |
 | Gundam/Batman figure | The figure sequence produced unrelated labels including `aircraft carrier` and `syringe`; the terminal still below shows a 64.68% `aircraft carrier` score. |
 
-Note: Object transitions, hands, and the background (although I ensured the background was as unobstrusive as possible), were also part of the captured scene,
+Note: Object transitions, hands, and the background (although I ensured the background was as unobtrusive as possible), were also part of the captured scene.
 
 **What failed and why:** Both the simple Santa and the complex figure were misclassified. This demonstrates a limitation of the recognition system. The supplied [class list](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/classes.json) has no Santa, Gundam, or Batman, or anything related for its category, so the model cannot directly output those identities. A candle container can resemble a cup because of varying viewpoint and low captured resolution are plausible additional contributors, but this experiment did not isolate their effects. Frame-by-frame classification explains why the displayed labels can switch rapidly.
 
 
-**Evidence:** [Object demonstration (51 s)](evidence/a1/objects.mp4) · [Terminal recording (63 s)](evidence/a1/terminal.mp4) · [Text log](evidence/a1/a1-final-20261109-122444-WnQoJV.txt) · 
+**Evidence:** [Object demonstration (51 s)](evidence/a1/objects.mp4) · [Terminal recording (63 s, silent)](evidence/a1/terminal.mp4) · [Text log](evidence/a1/a1-final-20261109-122444-WnQoJV.txt)
 
 ![Six objects tested, in presentation order: teapot, mouse, Santa, mug, candle, and Gundam/Batman figure](evidence/a1/objects-contact-sheet.jpg)
 
@@ -81,7 +44,7 @@ I also moved my hand toward and away from the camera while trying to keep the sa
 
 Quiet Coyote silenced the audio and showed **0% at 1:00**. When I rotated my hand sideways, the dots overlapped and the gesture stopped registering, even though my hand was still tracked. By **1:05**, the display showed **18%** and the audio had resumed. Rotation changes the distances the gesture rule checks. I then returned to pinch control and could adjust the volume again.
 
-For the prototype in future parts,, I could use a gesture to pause reminders and a pinch to set the pause length. After this test, I'd keep the pause active until a clear resume action, so turning my hand wouldn't accidentally restart reminders.
+For the prototype in future parts, I could use a gesture to pause reminders and a pinch to set the pause length. After this test, I'd keep the pause active until a clear resume action, so turning my hand wouldn't accidentally restart reminders.
 
 **Evidence:** [Full demo with audio (1:49)](evidence/a2/hand-tracking.mp4) · [Video timestamps and file details](evidence/a2/README.md).
 
@@ -121,95 +84,152 @@ For Shelf Watcher, a response arriving almost four minutes after capture could d
 
 ### A4. Teachable Machine
 
-**Planned exploration:** Run the stock `tml_example.py`, then train an Image Project / Standard model for the final camera view. Collect about 200 varied optical images per class (the assignment suggests over 150). Preview, iterate, export TensorFlow Lite and labels, and deploy to the Pi.
+I ran `tml_example.py`, then trained a Standard image model to recognize **WORK, VIDEO, and NEUTRAL**. My first model used Kiyo recordings but misclassified the Pi camera view. I retrained using the Pi webcam at its shelf position: **184 WORK, 163 VIDEO, and 200 NEUTRAL images**, including desktop and blank-screen examples.
 
-| Class | Planned training examples | Collected / held out |
+I checked all three classes in Teachable Machine's file preview, exported a quantized TensorFlow Lite model and `labels.txt`, and ran them on the Pi.
+
+![Second model trained with all three class counts](evidence/a4/pi-training-v2/training-complete.png)
+
+[Preview screenshots and export](evidence/a4/README.md) | [Model](models/a4-pi-v2/model.tflite) | [Labels](models/a4-pi-v2/labels.txt).
+
+I recorded a three-minute test while switching between work, video, and neutral scenes. **826/872 labeled frames were correct (94.7%)**, excluding 25 ambiguous transitions. Bright fullscreen video sometimes became WORK, and a different wallpaper became VIDEO. This result covers one short recording with correlated frames.
+
+**Evidence:** [Pi webcam video (silent)](evidence/a4/manual-20261110-163239/camera-review.mp4) | [Timestamped predictions](evidence/a4/manual-20261110-163239/predictions.csv) | [Results and reviewed labels](evidence/a4/manual-20261110-163239/README.md).
+
+I'd use this classifier for Shelf Watcher to recognize screen appearances and trigger a reminder after sustained VIDEO detection. A video can still be work, so the interaction would need a user override.
+
+Teachable Machine lets me define categories through examples instead of writing visual rules. OpenCV provides capture and image-processing tools; MediaPipe provides landmarks for position-based gestures and continuous controls. Teachable Machine fits my custom scene categories, but depends on representative training examples.
+
+## Part B: Shelf Watcher interaction
+
+My Shelf Watcher uses a Pi webcam to look at my monitor and classify what it sees
+as WORK, VIDEO, or NEUTRAL. Its miniTFT face looks happy when I'm working, angry
+when it detects video, and asleep when the screen is neutral. If VIDEO stays
+detected for 15 seconds, it plays a spoken reminder through my Leviathan V2
+speaker, with at least 15 seconds between reminders. Returning to work or neutral
+resets the video timer.
+
+I tested it by switching between an editor, video playback, and my desktop.
+First I tried triple beeps after five seconds with no cooldown. Then I switched
+to three spoken clips that play in order and increased the trigger and cooldown
+to 15 seconds. I preferred the spoken clips. Finally, I added the faces so the
+current prediction is visible between reminders. I recorded phone videos and
+checked the Pi logs to see which faces and reminders were triggered.
+
+<img src="evidence/b1/webcam-setup.jpg" alt="USB webcam mounted beside the shelf support for the Shelf Watcher setup" width="360">
+
+*My webcam setup for observing the monitor.*
+
+| Experiment | Output | VIDEO trigger / cooldown | Result |
+|---|---|---|---|
+| 1 | Triple beeps | 5 s / 0 s | Worked as intended; 10 clips completed, then I stopped during another. |
+| 2 | Three spoken clips in order | 15 s / 15 s | All three clips completed in order. I preferred the spoken clips. |
+| 3 | Spoken clips plus miniTFT faces | 15 s / 15 s | Happy WORK, angry VIDEO, asleep NEUTRAL; all three faces confirmed, two reminders completed. |
+
+Below 85% confidence, the face looks puzzled and the VIDEO timer resets.
+Audio clips never overlap. Since I changed both sound and timing, the beep/voice
+comparison covers the full configurations.
+
+**Evidence:** [Beep demonstration with audio](evidence/b1/beep-demo.mp4) |
+[Voice demonstration with audio](evidence/b1/voice-demo.mp4) |
+[Voice + display demonstration](evidence/b1/display-demo.mp4) |
+[Photos, logs, and results](evidence/b1/README.md).
+
+| WORK: happy | VIDEO: angry | NEUTRAL: asleep |
 |---|---|---|
-| WORK | Actual editor, documents, spreadsheets, and work browsing | PENDING / PENDING |
-| VIDEO | Different videos, player layouts, window sizes, and content | PENDING / PENDING |
-| NEUTRAL | Blank monitor, desktop, and specific neutral scenes | PENDING / PENDING |
+| <img src="evidence/b1/display-happy.webp" alt="Happy face on the physical mini PiTFT" width="220"> | <img src="evidence/b1/display-angry.webp" alt="Angry face on the physical mini PiTFT" width="220"> | <img src="evidence/b1/display-asleep.webp" alt="Asleep face on the physical mini PiTFT" width="220"> |
 
-Training and inference must use the same fixed monitor crop and image preprocessing. Hold out a separate capture session and unseen content for testing; neighboring frames from the same recording are not independent validation. NEUTRAL is a trained category, not a guarantee of detecting every unknown image. Low-confidence output gets a separate uncertain behavior.
+[Display setup and exact commands](docs/part-b-display.md) |
+[Application code](scripts/b1_shelf_watcher.py).
 
-**Affordances comparison (design analysis):** Teachable Machine lets the designer define categories through examples, at the cost of collecting representative data. MediaPipe exposes landmarks suited to geometric gesture rules and continuous controls. OpenCV provides capture and image-processing primitives from which a designer can build explicit visual rules. These approaches can be combined: Shelf Watcher proposes OpenCV capture/cropping plus a learned classifier.
+## Part C: Flight test
 
-**PENDING:** stock-model observation; training counts; preview mistakes; changes between model versions; export details; Pi inference outcome; training/preview/export screenshots (A-TM).
+I based this reflection on the [Experiment 3 face-and-voice video](evidence/b1/display-demo.mp4), its [logs and results](evidence/b1/README.md), and the earlier [beep demonstration](evidence/b1/beep-demo.mp4). I also used my own experience and informal feedback from two participants. The [two follow-up videos in Part D](evidence/d1/README.md) show the split-screen and lighting problems described below.
 
-## Part B — Fold: construct an interaction
+**1. When does it do what it is supposed to do?**
 
-### Proposed interaction
+In Experiment 3, the miniTFT showed happy, angry, and asleep faces for WORK, VIDEO, and NEUTRAL. I could see what it thought was on screen between reminders. It played two spoken reminders at 25.08 and 40.29 seconds on the Pi's recording clock, matching the 15-second wait and 15-second gap I had set. It also responded quickly when I switched between the work pages and video sites I tested.
 
-The familiar's face points toward the user while the camera bracket points toward the monitor. The bracket is locked before dataset capture. The model classifies camera frames, and a time-based controller decides when to remind the user. Speech is a prerecorded local line: **“Hey. Back to work.”** No generative speech service is needed.
+**2. When does it fail?**
 
-| Input / condition | Planned output |
-|---|---|
-| Confident WORK | Relaxed face; clear pending video timer |
-| Confident VIDEO | Suspicious face; begin/continue persistence timer |
-| VIDEO persists 15 seconds and cooldown permits | Play one reminder; annoyed face; start cooldown |
-| NEUTRAL or low-confidence / unstable prediction | Neutral/puzzled face; clear pending video timer; no reminder |
-| Missing/stale frame or camera read failure | Camera-error state; clear pending timer; no reminder |
-| Break button | Pause reminders for five minutes; show break status |
-| Work-video button | Toggle visible work-video override until user clears it |
+The exposed Pi and screen felt unfinished, and the separate Bluetooth speaker made it hard to tell where the voice was coming from. I found the repeated reminders irritating, and both participants felt the same way. I also found two recognition problems: putting an editor beside a video made it show WORK in my test, and turning off the room lights made its reactions keep changing.
 
-Starting parameters, not calibrated results: one inference/second, minimum top score 0.85, persistence 15 seconds, cooldown 60 seconds, and break duration 300 seconds. See [configuration proposal](config/settings.example.json). Use elapsed monotonic time rather than assuming a frame rate. Reset pending detection across non-video states, overrides, and capture gaps. Avoid overlapping audio and repeated triggers within the cooldown.
+**3. When it fails, why does it fail?**
 
-### Planned input/output experiments
+The face and speaker were physically separate, so they did not feel like one character. The repeated reminders also made it feel like a jail warden telling me what to do. I think the recognition problems came partly from gaps in my training examples. I had left out split-screen layouts and different room lighting. The webcam's resolution could also play a part. I would need to test those factors separately to understand how much each one matters.
 
-1. Compare full camera frame versus fixed monitor crop on the same held-out scenes.
-2. Compare immediate triggering versus a 15-second persistence rule.
-3. Compare face-only feedback versus face plus speech.
-4. Exercise break and work-video overrides with actual video viewing.
+**4. Based on the behavior you have seen, what other scenarios could cause problems?**
 
-**PENDING:** implemented code, measured comparison, selected final settings, setup photograph, and integrated-system video (B-SYSTEM). The table above is a specification, not current executable behavior.
+It could interrupt a tutorial I am watching for work because it judges what the screen looks like. In a shared room, the reminders could distract other people. Over time, I might start ignoring or muting them. I would also expect glare, a moved camera, or something partly covering the lens to cause problems. Those situations still need testing.
 
-## Part C — Flight test
+**5. Are users aware of the uncertainties in the system?**
 
-Use the [test protocol](docs/test-plan.md) and [trial sheet](experiments/trials.csv). The following are hypotheses and intended mitigations, not observations.
+The face looks puzzled when the model's score falls below 85%. I am unsure whether the participants understood that expression. Across the three trials, a user noticed one classification mistake. People seemed to notice the sound first. Those trials used a well-lit room and one application filling the screen, so I still need to check how people respond during split-screen use.
 
-| Required question | Design-stage answer / remaining evidence |
-|---|---|
-| When does it work? | Hypothesis: stable camera, clear monitor view, and familiar layouts represented in training. PENDING measured successes. |
-| When does it fail? | Candidate cases: unseen layouts, split screens, glare, occlusion, camera movement, and work videos. PENDING observed failures. |
-| Why does it fail? | Possible causes: dataset gaps, small screen details after resizing, background shortcuts, or category ambiguity. Verify using captured examples. |
-| Other scenarios that could cause problems? | A paused video, animated work content, a second monitor, another person blocking the camera, theme changes, and display sleep. |
-| Are users aware of uncertainty? | Plan: puzzled/error expressions and visible override state; numerical scores in the diagnostic preview. PENDING user reaction. |
-| Consequences of misclassification? | False reminders interrupt legitimate work; missed detections reduce usefulness. A score does not establish intent or productivity. |
-| How could the interaction address errors? | Persistence, cooldown, manual overrides, camera-error suppression, and easy repositioning. PENDING verification of each implemented behavior. |
-| Algorithm optimizations to try? | Fixed crop, representative examples, lower sampling rate, threshold tuning, and retraining. Compare one change on held-out scenes and report the tradeoff. |
+**6. How badly would users be impacted by a misclassification?**
 
-**Results summary:** PENDING. Report correct/incorrect/uncertain counts, false reminders during work, missed reminders during video, and end-to-end delay. Keep classifier performance separate from controller correctness. Do not count a work tutorial as leisure ground truth merely because it is a video.
+A mistaken VIDEO result could interrupt someone's work and make them feel unfairly corrected. Missing a video could mean they never get a reminder. The beep experiment worked without an observed error. I expected the beeps to bring people back to work quickly, like an alarm clock, but I did not time that. Both participants preferred the spoken reminder, even with its mistakes.
+
+**7. How could you change the interactive system to address this?**
+
+I would give it a mascot body and put the speaker near the face so it feels like the character is speaking. I would also try gentler expressions, encouraging reminders, and a positive response when I return to work. A pause button, a way to mark a video as work, and an adjustable reminder interval would let me decide when it should interrupt.
+
+**8. Are there optimizations you can try on the sense-making algorithm?**
+
+I could make it wait for several similar predictions before changing the face, which might reduce the rapid switching. I could also crop the camera image to the monitor and add training examples with different layouts and lighting. I would try one change at a time on scenes kept out of training, then count mistaken reminders and missed videos and measure how long it takes to respond. Waiting for more predictions could also make it slower.
 
 ## Part D — Reflect: characterize the system
 
-| Question | Initial characterization to test |
-|---|---|
-| What can it be used for? | A voluntary personal reminder for familiar screen-viewing habits. It is not a productivity measurement or employee-monitoring tool. |
-| Good environment? | Stable shelf mount, clear view of one monitor, and lighting/layouts represented in training. |
-| Bad environment? | Strong glare, steep angle, frequent monitor movement, rapidly changing applications, or mixed work/video layouts. |
-| When will it break? | Hypothesis: out-of-distribution scenes, obstructed lens, camera disconnect, or changes to crop/mount. Actual cases PENDING. |
-| How will it break? | It may confidently choose a wrong class, switch labels, miss a video, or fail to capture. Intended control behavior suppresses alerts on known uncertainty/errors but cannot catch all confident mistakes. |
-| Other properties/behaviors? | There is a deliberate 15-second grace period plus inference/playback latency. It needs installation-specific data and manual intent overrides. |
-| How does it feel? | Design intent: amusing and gently corrective. Actual author/user experience, including annoyance, is PENDING. |
+I tested Shelf Watcher again in a [normal walkthrough (2:42)](evidence/d1/normal-walkthrough.mp4) and a [room-lights-off test (0:28)](evidence/d1/no-room-lighting.mp4), explaining what I saw as I recorded. My comments about how it feels also come from the experience and feedback in Part C.
 
-**Required characterization video:** PENDING — D-CHAR. Demonstrate and narrate the questions above using real successes, faults, and recovery.
+**1. What can you use it for?**
+
+I can use it to remind me when I switch from work to a video site. In the walkthrough, it shows WORK for my editor, ElevenLabs, and Google Docs, and VIDEO for several streaming sites. It judges the screen's appearance, so a tutorial I need for work could also trigger a reminder.
+
+**2. What is a good environment for it?**
+
+It worked well at my normally lit desk, with the webcam fixed toward the monitor and one application taking up most of the screen. The work pages showed a happy face. Netflix, Disney+, HBO Max, Prime Video, and Bilibili showed an angry face during the walkthrough. I tested a small selection of pages on each site.
+
+**3. What is a bad environment for it?**
+
+Sharing the screen between an editor and a video caused problems. The editor made it treat the screen as WORK even with video visible. Turning off the room lights also caused trouble: the face kept changing while I stayed on one video platform. Glare and different camera positions still need testing.
+
+**4. When will it break?**
+
+At **2:10–2:42 in the walkthrough**, I put an editor in front of or beside the video. By **2:38**, the face is happy while video content remains on screen. In the **lights-off clip**, Bilibili stays on screen while the face changes. I think adding training examples for these layouts and lighting conditions could help. I would need separate tests to check the effects of the training data, webcam exposure, and resolution.
+
+**5. When it breaks, how will it break?**
+
+It can show a happy face while missing the video, as it does in the split-screen test. With the room lights off, it shows an angry face at **0:14** and a happy face at **0:16**, with puzzled faces at other points. WORK and low-confidence predictions reset the VIDEO timer, which could delay or prevent a reminder. I did not count missed reminders in these recordings.
+
+**6. What are its other properties or behaviors?**
+
+Streaming-site menus can trigger VIDEO even before a video starts playing. At **1:32–1:41**, I also point out a brief confused reaction to Prime Video before it returns to VIDEO. The face responds quickly, and the spoken reminder waits for sustained VIDEO detection. In Part B, I set a 15-second wait before speaking and at least 15 seconds between reminders. A score below 85% shows the puzzled face and resets the timer. I used those earlier settings and tests to describe the timing here.
+
+**7. How does it feel?**
+
+The faces make its reactions easy to see. Seeing it smile while missing a video makes me trust it less. The repeated reminders irritated me and both participants, as I described in Part C. The exposed hardware and separate speaker also made it feel unfinished. I would like to give it a body, soften the reminders, and add controls to pause it or mark a video as work. Those changes are still on my to-do list.
+
+**Video evidence:** [Normal walkthrough with narration](evidence/d1/normal-walkthrough.mp4) · [No room lighting with narration](evidence/d1/no-room-lighting.mp4) · [Timestamp guide and selected frames](evidence/d1/README.md).
 
 ## Part 2 — Finished system in use
 
-**Status: NOT BUILT / NOT DEMONSTRATED.**
+**[Watch the finished companion in use — with sound](evidence/part2/finished-companion.mp4).**
 
-Planned final sequence: show shelf installation and optical camera view; work normally; switch to a video; wait for the real grace period; hear the reminder; return to work; demonstrate a legitimate tutorial override; show a failure and recovery. Label any edited time compression. Do not imply a prerecorded face sequence is live classification.
+I finished Shelf Watcher by giving it a cardboard body and attaching the expression display to the front. In the earlier trials, participants did not really notice the expression until they heard the audio cue. I wanted the face to belong to the companion, making it feel more like a character reacting to me. This was my reason for anthropomorphizing the enclosure.
 
-- Final integrated demo link: PENDING — FINAL-DEMO.
-- Finished enclosure photo: PENDING — FINAL-PHOTO.
-- Final code / model / settings revision: PENDING.
-- Reproducible final launch command: PENDING implementation and Pi verification.
-- Final limitations and improvements: PENDING tests; retain known camera-view and intent limitations.
+The webcam still observes my physical monitor. The classifier drives the miniTFT expressions and spoken reminders. The final run's saved settings confirm a **10-second sustained VIDEO trigger**, an **85% confidence threshold**, and a **7-second cooldown**. These are shorter timings than the 15-second trigger and cooldown in Part B. The cooldown is measured between reminder starts, and clips cannot overlap. WORK, NEUTRAL, or a low-confidence prediction resets the VIDEO timer.
 
-## References and attribution
+In the video, I start on my work screen, switch to video content, and return to work near the end. The enclosed companion stays beside the monitor, and the recording captures the spoken reminders during video use.
 
-- [Official Lab 5, Fall2025](https://github.com/IRL-CT/Interactive-Lab-Hub/tree/Fall2025/Lab%205)
-- [Pinned assignment](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/README.md)
-- [Bellotti et al. paper](https://sites.cc.gatech.edu/people/home/keith/pubs/chi2002-sensing.pdf)
-- [Detailed source and hardware references](docs/sources.md)
+The [final run logs](evidence/part2/README.md#settings-and-log-scope) contain **568 frames** and **five completed reminders** in the order 01, 02, 03, 01, 02. The first reminder started after 10.005 seconds of qualifying VIDEO predictions; later reminders started about 7.20 seconds apart, without overlapping. When the prediction returned to WORK, no new reminders started, but the clip already playing finished. The log also records happy, angry, asleep, and uncertain display states.
 
-This repository is a standalone private student project, not an upstream fork. Original course code is retrieved separately with provenance. Documentation scaffolding and design organization were assisted by Codex; experimental observations must be supplied and reviewed by the author. Course-specific disclosure and submission rules remain to be checked by the author.
+| Front: face and camera | Side: cable opening | Rear/side: enclosure interior |
+|---|---|---|
+| <img src="evidence/part2/finished-build-8374.webp" alt="Front of the finished cardboard companion with a smiling miniTFT face and webcam mounted below it" width="240"> | <img src="evidence/part2/finished-build-8375.webp" alt="Side of the finished enclosure showing the opening for a connected cable" width="240"> | <img src="evidence/part2/finished-build-8378.webp" alt="Rear and side view of the cardboard enclosure showing the interior and cable routing" width="240"> |
+
+*Photos of the finished build.*
+
+The enclosure gives the expression a physical character to belong to, but it does not solve the classifier's limitations. Split-screen layouts and lighting changes caused problems in Part D, and a work-related tutorial can still look like VIDEO. The speaker is still separate. A pause control, a way to mark a video as work, and another participant test would be useful next steps.
+
+**Supporting evidence:** [Video timestamp guide, final logs, and file receipt](evidence/part2/README.md) · [Final launch command and implementation](docs/part2-run.md).

@@ -10,3 +10,8 @@
 *.jpg binary
 *.stl binary
 *.tflite binary
+# Preserve recorded evidence bytes so published files retain their checksums.
+evidence/**/*.csv -text whitespace=cr-at-eol
+evidence/**/*.json -text whitespace=cr-at-eol
+evidence/**/*.jsonl -text whitespace=cr-at-eol
+evidence/**/*.txt -text whitespace=cr-at-eol

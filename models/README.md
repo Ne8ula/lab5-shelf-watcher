@@ -1,21 +1,17 @@
-# Model handoff
+# Classifier models
 
-No trained model exists in this repository yet. After training, place the exported `model.tflite` and `labels.txt` here. Do not use the course's stock model as evidence of having trained a custom model.
+[Pi shelf-camera model 2](a4-pi-v2/README.md) is the current A4 model. It was
+trained and exported on 2026-11-10 using 184 WORK, 163 VIDEO, and 200 NEUTRAL
+images from the Pi camera. The [Kiyo baseline](a4-kiyo-v1/README.md) is retained
+for comparison; the course stock model remains separate on the Pi.
 
-For automatic webcam bursts or extraction from existing optical recordings, see
-[short-burst sample collection](../docs/sample-collection.md). The collector has
-been checked with a synthetic video fixture; real webcam collection and model
-training remain pending.
+The [manual switching test](../evidence/a4/manual-20261110-163239/README.md)
+records 94.7% correct on 872 labeled frames in one short recording. Bright
+fullscreen video and a different neutral wallpaper caused errors. This model
+was used in the [Part B experiments](../evidence/b1/README.md) and
+[finished companion](../evidence/part2/README.md). Split-screen layouts and
+lighting changes remain known limitations.
 
-Record before deployment:
-
-- Training/export date and model revision: PENDING.
-- Actual class names and exported index order: PENDING.
-- Training examples per class and session IDs: PENDING.
-- Separate held-out capture session/content: PENDING.
-- Crop coordinates and camera mounting geometry: PENDING.
-- Export type, input tensor shape/dtype, normalization, channel order, quantization if applicable: PENDING.
-- Preview errors and iteration changes: PENDING.
-- Pi runtime/version and measured results: PENDING.
-
-Match preprocessing to the exported model/runtime. Do not assume score scale or class order without inspecting actual output. Raw optical captures belong in ignored data folders; publish only deliberately selected evidence.
+See the model-specific README for preprocessing, class order, hashes, and Pi
+launch instructions. Raw optical captures and editable training project backups
+stay in ignored data folders. [All A4 evidence](../evidence/a4/README.md).

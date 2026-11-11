@@ -13,7 +13,7 @@ I ran this experiment on November 9, 2026, using Ollama on the Raspberry Pi in C
 | [Request 2](request-2-objects.png) | Object-list question, answer, and 27.407-second timing | 1099 × 322 |
 | [Request 3](request-3-urn.png) | Handle-and-spout question, “urn” answer, and 3.628-second timing | 1046 × 297 |
 
-These PNG files were recovered from the four supplied conversation attachments without further image editing or re-encoding. The setup photo is the chat-resized 1368 × 1824 version of the supplied 2160 × 2880 photo. All four are embedded in the main README.
+All four PNGs are included in this directory and embedded in the main README. The setup photo is a resized 1368 × 1824 copy of the original 2160 × 2880 photo.
 
 ## Questions, answers, and timing
 
@@ -50,7 +50,7 @@ All three screenshots report `ANSWER RETURNED`. The last screenshot shows `quit`
 - The launch command shown is `python -u moondream_timed.py`, recorded with the Linux `script` command. The timing wrapper calls the original course demo and measures each `ask_moondream` call with `time.perf_counter()`.
 - Elapsed times include image encoding, the Ollama request, model processing/loading if any, and receiving and printing the answer. They exclude camera capture and the user's typing time. They are not isolated inference benchmarks.
 - This was a rerun. Model residency/loading was not measured, and prompts and response lengths differed; these three times do not establish a controlled cold-versus-warm comparison.
-- The script sends each question and the same image independently, without previous answers as conversation history.
+- The script sends each question and the same image independently, without including earlier answers.
 - The visible Pi directory is `/home/ne8ula/lab5-a3-evidence/run-20261109-133330-JhV5YK`, and the shell shows the `.venv-a1` environment active.
 - The setup photo is an external view of the arrangement, not the webcam's saved input image. Both descriptions omit the mug visible in that photo, but the exact webcam framing cannot be checked from the supplied evidence. The photo also shows a cream/brown teapot and a dark covered surface, unlike the pink teapot and wooden table in the generated description.
 - The three terminal screenshots and setup photo are included in this directory. The Pi's `captured_image.jpg`, raw terminal log, and A3 environment file are not included; the transcription above is based on the screenshots.

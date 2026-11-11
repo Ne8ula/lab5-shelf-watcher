@@ -1,11 +1,11 @@
 evidence_id,description,status,path_or_url,timestamps,notes
-PREP,Environment and setup,partial,../README.md,,A1 environment and camera verified; speaker display and other demo environments pending
+PREP,Environment and setup,partial,../README.md,,Pi webcam and inference documented in Part A; Bluetooth audio and display demonstrated in Part B; fresh dependency inventory not recorded
 A-PYT,PyTorch exploration,documented_local,a1/README.md,objects 00:00-00:51; terminal 00:00-01:03,Same run confirmed by author; log and stills included; remote access not verified
 A-MP,Hand tracking and pinch and Quiet Coyote,documented_local,a2/README.md,00:35 pinch closed; 00:45-00:49 distance; 01:00 coyote; 01:05 rotation failure; 01:10 recovery,Original video with audio and selected stills; interaction proposal in README; remote access not verified
 A-MOON,Moondream questions and timing,documented_local,a3/README.md,2026-11-09 14:06:46-05:00; 14:10:56-05:00; 14:11:29-05:00,Three screenshots and setup photo included with transcription; 237.971s / 27.407s / 3.628s; raw Pi image and log not included
-A-TM,Stock demo and custom training export deployment,pending,,,
-B-SYSTEM,Integrated interaction and experiments,pending,,,
-C-FAULTS,Failures and recovery,pending,,,
-D-CHAR,Seven characterization questions on video,pending,,,
-FINAL-DEMO,Finished system in use,pending,,,
-FINAL-PHOTO,Physical robot and camera arrangement,pending,,,
+A-TM,Stock demo and custom training export deployment,documented_local,a4/README.md,2026-11-10 16:33:32-16:36:31 EST,Two custom models; model 2 training/preview/export screenshots; manual video and 897 predictions; 826/872 labeled frames correct with 25 ambiguous transitions excluded; known fullscreen-video and wallpaper failures
+B-SYSTEM,Integrated interaction and experiments,documented_local,b1/README.md,2026-11-10; beep phone 0:59; voice phone 1:22; display phone 1:03,Three output experiments with phone audio; spoken clips preferred; happy angry and asleep physical faces confirmed
+C-FAULTS,Failures and effects,documented_local,d1/README.md,normal 02:10-02:42; lights-off 00:00-00:28,Split-screen false WORK and lights-off instability; Part C contains experiential reflection; no lights-on recovery shown
+D-CHAR,Seven characterization answers with narrated videos,documented_local,d1/README.md,normal 00:00-02:42; lights-off 00:00-00:28,Full recordings retain original audio; seven answers in main README; feelings from Part C; new accuracy and reminder timing not measured; remote access not verified
+FINAL-DEMO,Finished enclosed companion in use,documented_local,part2/README.md,phone 00:00-01:28; Pi 00:00-01:53.69,Original phone picture and audio preserved; attached face motivated by earlier participant observations; 568 logged frames and five completed reminders; verified 10-second trigger and 7-second cooldown; separate phone and Pi clocks; remote access not verified
+FINAL-PHOTO,Finished cardboard enclosure and attached expression display,documented_local,part2/README.md#finished-build-photographs,video still 01:10,Three supplied build photos saved locally: front face and webcam; side cable opening; rear-side interior; additional frame from final demonstration

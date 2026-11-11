@@ -1,16 +1,16 @@
 # A1 evidence — PyTorch / MobileNet
 
-Experiment date: 2026-11-09. The author confirmed that both recordings show the same run, that the course starter script was unchanged, and that the webcam was course-provided with model unknown. The network/model used by the script is known: quantized MobileNet v2. No new hardware experiment was performed during documentation review.
+I recorded this experiment on November 9, 2026. Both recordings show the same run using the unchanged course starter script and a course-provided USB webcam (model unknown). The script uses quantized MobileNet v2.
 
 | File | Provenance / use |
 |---|---|
 | [objects.mp4](objects.mp4) | Original `IMG_8353.mov`, remuxed to MP4 without re-encoding video/audio. About 50.76 s. Shows the objects and camera handling. |
 | [terminal.mp4](terminal.mp4) | Byte-for-byte copy of `Recording 2026-11-09 122702.mp4`. About 63.00 s. Shows terminal predictions and FPS. |
-| [Text log](a1-final-20261109-122444-WnQoJV.txt) | Byte-for-byte copy of the author's Pi log, transferred through Windows Downloads. Original Pi path: `/home/ne8ula/lab5-a1-evidence/a1-final-20261109-122444-WnQoJV.txt`. |
+| [Text log](a1-final-20261109-122444-WnQoJV.txt) | Byte-for-byte copy of my Pi log. Original Pi path: `/home/ne8ula/lab5-a1-evidence/a1-final-20261109-122444-WnQoJV.txt`. |
 | [Object stills](objects-contact-sheet.jpg) | Six phone-video frames at 1, 7, 14, 21, 30, and 44 s, arranged in presentation order. These are external views, not recorded webcam inputs. |
 | [Terminal still](terminal-52s.png) | Frame at 52 s of the terminal recording; shows aircraft-carrier and syringe predictions during the late figure sequence. |
 
-The recordings have different start/end times and are not frame-synchronized. The log has no per-frame timestamps or object annotations. Sequence-based interpretations and the author's reported candle confusion are identified as such in the main README. No per-object accuracy or exact synchronized ground truth is inferred.
+The recordings have different start/end times and are not frame-synchronized. The log has no per-frame timestamps or object annotations. Sequence-based interpretations and my observed candle confusion are identified as such in the main README. No per-object accuracy or exact synchronized ground truth is inferred.
 
 ## Measurement method
 
@@ -38,6 +38,6 @@ SHA-256 of the terminal recording, verified against the supplied original:
 15b949b9bde62868acc2cec1eec5a8dd0df27ee7da57b1e246c7178157801148
 ```
 
-Course references: [A1 instructions](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/README.md#pytorch-for-object-recognition), [infer.py](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/infer.py), and [classes.json](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/classes.json). Unchanged-script status is author-confirmed; no byte comparison against the Pi's file was performed.
+Course references: [A1 instructions](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/README.md#pytorch-for-object-recognition), [infer.py](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/infer.py), and [classes.json](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/classes.json). I used the unchanged starter script; no byte comparison against the Pi file was performed.
 
-These selected media files are included by specific `.gitignore` exceptions. Local links have been checked; remote publication and grader access have not been tested. The other lab demonstrations remain separate requirements. The author should complete the requested reading of `infer.py` if not already done.
+These selected media files are included by specific `.gitignore` exceptions. Local links have been checked; remote publication and grader access have not been tested.
