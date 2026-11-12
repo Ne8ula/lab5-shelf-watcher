@@ -2,19 +2,6 @@
 
 **Author:** Hao Chen Xiong
 
-[Launch Shelf Watcher](docs/part2-run.md) · [Hardware](docs/materials.md) · [Source code](scripts) · [Sources](docs/sources.md)
-
-| Deliverable | Report and files |
-|---|---|
-| Part A | [PyTorch](#a1-pytorch--mobilenet), [MediaPipe](#a2-mediapipe), [Moondream](#a3-moondream), [Teachable Machine](#a4-teachable-machine) |
-| Part B | [Interaction experiments](#part-b-shelf-watcher-interaction) |
-| Part C | [Flight test](#part-c-flight-test) |
-| Part D | [Characterization](#part-d--reflect-characterize-the-system) |
-| Part 2 | [Finished system, video, and photos](#part-2--finished-system-in-use) |
-| Implementation | [Controller](scripts/b1_shelf_watcher.py), [display](scripts/b1_display.py), [camera](scripts/a4_camera.py), [model](models/a4-pi-v2/model.tflite), [labels](models/a4-pi-v2/labels.txt), [audio](assets/audio), [tests](tests) |
-
-**Video playback:** Open a video link to view its GitHub file page, or use **Download MP4** to watch it in your player. GitHub may not preview large videos. Sign in with repository access, and enable sound in your player. The A1 terminal recording and A4 webcam recording are silent; the other demonstrations retain audio.
-
 ## Part A
 
 ### A1. PyTorch / MobileNet
@@ -39,7 +26,7 @@ Note: Object transitions, hands, and the background (although I ensured the back
 **What failed and why:** Both the simple Santa and the complex figure were misclassified. This demonstrates a limitation of the recognition system. The supplied [class list](https://github.com/IRL-CT/Interactive-Lab-Hub/blob/9ef02d4ead28bafc0a803116a6a952f3908b7463/Lab%205/classes.json) has no Santa, Gundam, or Batman, or anything related for its category, so the model cannot directly output those identities. A candle container can resemble a cup because of varying viewpoint and low captured resolution are plausible additional contributors, but this experiment did not isolate their effects. Frame-by-frame classification explains why the displayed labels can switch rapidly.
 
 
-**Evidence:** [Object demonstration (51 s)](evidence/a1/objects.mp4) ? [Download MP4](evidence/a1/objects.mp4?raw=true) · [Terminal recording (63 s, silent)](evidence/a1/terminal.mp4) ? [Download MP4](evidence/a1/terminal.mp4?raw=true) · [Text log](evidence/a1/a1-final-20261109-122444-WnQoJV.txt)
+**Evidence:** [Object demonstration (51 s)](evidence/a1/objects.mp4) | [Download MP4](evidence/a1/objects.mp4?raw=true) | [Terminal recording (63 s, silent)](evidence/a1/terminal.mp4) | [Download MP4](evidence/a1/terminal.mp4?raw=true) | [Text log](evidence/a1/a1-final-20261109-122444-WnQoJV.txt)
 
 ![Six objects tested, in presentation order: teapot, mouse, Santa, mug, candle, and Gundam/Batman figure](evidence/a1/objects-contact-sheet.jpg)
 
@@ -111,7 +98,7 @@ I recorded a three-minute test while switching between work, video, and neutral 
 |---|---|---|
 | ![WORK preview](evidence/a4/pi-training-v2/preview-work.png) | ![VIDEO preview](evidence/a4/pi-training-v2/preview-video.png) | ![NEUTRAL preview](evidence/a4/pi-training-v2/preview-neutral.png) |
 
-[Quantized export screenshot](evidence/a4/pi-training-v2/export-quantized.png) · [Stock example](evidence/a4/stock-example-vnc.png) · [First training attempt](evidence/a4/training-complete-camera-unavailable.png) · [Baseline model](models/a4-kiyo-v1/model.tflite) · [Pi results](evidence/a4/pi-training-v2/pi-vnc-results.png) · [Dataset counts](evidence/a4/pi-training-v2/dataset-summary.json).
+[Quantized export screenshot](evidence/a4/pi-training-v2/export-quantized.png) | [Stock example](evidence/a4/stock-example-vnc.png) | [First training attempt](evidence/a4/training-complete-camera-unavailable.png) | [Baseline model](models/a4-kiyo-v1/model.tflite) | [Pi results](evidence/a4/pi-training-v2/pi-vnc-results.png) | [Dataset counts](evidence/a4/pi-training-v2/dataset-summary.json).
 
 | Scene | Correct / labeled frames |
 |---|---:|
@@ -155,9 +142,9 @@ Below 85% confidence, the face looks puzzled and the VIDEO timer resets.
 Audio clips never overlap. Since I changed both sound and timing, the beep/voice
 comparison covers the full configurations.
 
-**Evidence:** [Beep demonstration with audio](evidence/b1/beep-demo.mp4) ? [Download MP4](evidence/b1/beep-demo.mp4?raw=true) |
-[Voice demonstration with audio](evidence/b1/voice-demo.mp4) ? [Download MP4](evidence/b1/voice-demo.mp4?raw=true) |
-[Voice + display demonstration](evidence/b1/display-demo.mp4) ? [Download MP4](evidence/b1/display-demo.mp4?raw=true) |
+**Evidence:** [Beep demonstration with audio](evidence/b1/beep-demo.mp4) | [Download MP4](evidence/b1/beep-demo.mp4?raw=true) |
+[Voice demonstration with audio](evidence/b1/voice-demo.mp4) | [Download MP4](evidence/b1/voice-demo.mp4?raw=true) |
+[Voice + display demonstration](evidence/b1/display-demo.mp4) | [Download MP4](evidence/b1/display-demo.mp4?raw=true) |
 [Run results](evidence/b1/run-summary.json).
 
 | WORK: happy | VIDEO: angry | NEUTRAL: asleep |
@@ -177,7 +164,7 @@ The logs verify controller timing and non-overlapping playback against its predi
 
 ## Part C: Flight test
 
-I based this reflection on the [Experiment 3 face-and-voice video](evidence/b1/display-demo.mp4) ? [Download MP4](evidence/b1/display-demo.mp4?raw=true), its [logs and results](evidence/b1/run-summary.json), and the earlier [beep demonstration](evidence/b1/beep-demo.mp4) ? [Download MP4](evidence/b1/beep-demo.mp4?raw=true). I also used my own experience and informal feedback from two participants. The [two follow-up videos in Part D](#part-d--reflect-characterize-the-system) show the split-screen and lighting problems described below.
+I based this reflection on the [Experiment 3 face-and-voice video](evidence/b1/display-demo.mp4) | [Download MP4](evidence/b1/display-demo.mp4?raw=true), its [logs and results](evidence/b1/run-summary.json), and the earlier [beep demonstration](evidence/b1/beep-demo.mp4) | [Download MP4](evidence/b1/beep-demo.mp4?raw=true). I also used my own experience and informal feedback from two participants. The [two follow-up videos in Part D](#part-d--reflect-characterize-the-system) show the split-screen and lighting problems described below.
 
 **1. When does it do what it is supposed to do?**
 
@@ -213,7 +200,7 @@ I could make it wait for several similar predictions before changing the face, w
 
 ## Part D — Reflect: characterize the system
 
-I tested Shelf Watcher again in a [normal walkthrough (2:42)](evidence/d1/normal-walkthrough.mp4) ? [Download MP4](evidence/d1/normal-walkthrough.mp4?raw=true) and a [room-lights-off test (0:28)](evidence/d1/no-room-lighting.mp4) ? [Download MP4](evidence/d1/no-room-lighting.mp4?raw=true), explaining what I saw as I recorded. My comments about how it feels also come from the experience and feedback in Part C.
+I tested Shelf Watcher again in a [normal walkthrough (2:42)](evidence/d1/normal-walkthrough.mp4) | [Download MP4](evidence/d1/normal-walkthrough.mp4?raw=true) and a [room-lights-off test (0:28)](evidence/d1/no-room-lighting.mp4) | [Download MP4](evidence/d1/no-room-lighting.mp4?raw=true), explaining what I saw as I recorded. My comments about how it feels also come from the experience and feedback in Part C.
 
 **1. What can you use it for?**
 
@@ -243,7 +230,7 @@ Streaming-site menus can trigger VIDEO even before a video starts playing. At **
 
 The faces make its reactions easy to see. Seeing it smile while missing a video makes me trust it less. The repeated reminders irritated me and both participants, as I described in Part C. The exposed hardware and separate speaker also made it feel unfinished. I would like to give it a body, soften the reminders, and add controls to pause it or mark a video as work. Those changes are still on my to-do list.
 
-**Video evidence:** [Normal walkthrough with narration](evidence/d1/normal-walkthrough.mp4) ? [Download MP4](evidence/d1/normal-walkthrough.mp4?raw=true) · [No room lighting with narration](evidence/d1/no-room-lighting.mp4) ? [Download MP4](evidence/d1/no-room-lighting.mp4?raw=true).
+**Video evidence:** [Normal walkthrough with narration](evidence/d1/normal-walkthrough.mp4) | [Download MP4](evidence/d1/normal-walkthrough.mp4?raw=true) | [No room lighting with narration](evidence/d1/no-room-lighting.mp4) | [Download MP4](evidence/d1/no-room-lighting.mp4?raw=true).
 
 | Video page, 1:00 | Split-screen failure, 2:38 |
 |---|---|
@@ -253,9 +240,9 @@ The faces make its reactions easy to see. Seeing it smile while missing a video 
 |---|---|---|
 | <img src="evidence/d1/no-room-lighting-14s.jpg" alt="Angry face at 14 seconds" width="220"> | <img src="evidence/d1/no-room-lighting-16s.jpg" alt="Happy face at 16 seconds" width="220"> | <img src="evidence/d1/no-room-lighting-26s.jpg" alt="Happy face at 26 seconds" width="220"> |
 
-## Part 2 — Finished system in use
+## Part 2: Finished system in use
 
-**[Watch the finished companion in use — with sound](evidence/part2/finished-companion.mp4) ? [Download MP4](evidence/part2/finished-companion.mp4?raw=true).**
+**[Companion in Use](evidence/part2/finished-companion.mp4) | [Download MP4](evidence/part2/finished-companion.mp4?raw=true).**
 
 I finished Shelf Watcher by giving it a cardboard body and attaching the expression display to the front. In the earlier trials, participants did not really notice the expression until they heard the audio cue. I wanted the face to belong to the companion, making it feel more like a character reacting to me. This was my reason for anthropomorphizing the enclosure.
 
@@ -275,16 +262,7 @@ The enclosure gives the expression a physical character to belong to, but it doe
 
 The phone video shows work at 0:00–0:20, video use and spoken reminders at 0:20–1:03, and a return to work at 1:03–1:28. The Pi run lasted 113.69 seconds; its timestamps are separate from the phone video.
 
-**Final run:** [Predictions](evidence/part2/final-run/predictions.csv) · [Events](evidence/part2/final-run/events.jsonl) · [Settings](evidence/part2/final-run/metadata.json) · [Run checks](evidence/part2/run-summary.json) · [Enclosure in use at 1:10](evidence/part2/enclosure-70s.jpg) · [Launch command](docs/part2-run.md).
+**Final run:** [Predictions](evidence/part2/final-run/predictions.csv) | [Events](evidence/part2/final-run/events.jsonl) | [Settings](evidence/part2/final-run/metadata.json) | [Run checks](evidence/part2/run-summary.json) | [Enclosure in use at 1:10](evidence/part2/enclosure-70s.jpg) | [Launch command](docs/part2-run.md).
 
-<details>
-<summary>Supporting files and recording details</summary>
-
-- A4: [Initial camera framing](evidence/a4/baseline-framing-check), [live Pi predictions and captures](evidence/a4/live-pi-v2-work), [model comparison](evidence/a4/evaluation-v2), [recording receipt](evidence/a4/manual-20261110-163239/receipt.json).
-- Part B recording receipts: [beep](evidence/b1/beep-receipt.json), [voice](evidence/b1/voice-receipt.json), [display](evidence/b1/display-receipt.json).
-- Part D: [Recording receipt](evidence/d1/receipt.json).
-- Part 2: [Video receipt](evidence/part2/receipt.json), [photo receipt](evidence/part2/photos-receipt.json).
-- Assets: [Voice clips and credits](assets/audio/README.md), [face artwork](assets/display/design-preview.png), [model specifications](models/a4-pi-v2/README.md).
-- Reproduction: [Audio experiment commands](docs/part-b-run.md), [display setup](docs/part-b-display.md), [sample collection](docs/sample-collection.md), [course dependencies](requirements.upstream.txt).
-
-</details>
+### AI Usage*
+ used AI (ChatGPT and Claude) to format the .md which was originally documented in Google Docs (due to easier table creations, and technical diagram creations). IDue to this lab's required video documentation,   used AI to figure out how to properly embed all different sized videos onto the .md rather than uploading it all to YouTube. Ialso used it for assistance during coding tasks (mostly debugging). Hardware, evidence, written reflection, design, and everything else was done by me.
