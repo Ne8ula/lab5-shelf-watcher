@@ -198,7 +198,7 @@ I would give it a mascot body and put the speaker near the face so it feels like
 
 I could make it wait for several similar predictions before changing the face, which might reduce the rapid switching. I could also crop the camera image to the monitor and add training examples with different layouts and lighting. I would try one change at a time on scenes kept out of training, then count mistaken reminders and missed videos and measure how long it takes to respond. Waiting for more predictions could also make it slower.
 
-## Part D — Reflect: characterize the system
+## Part D: Reflect
 
 I tested Shelf Watcher again in a [normal walkthrough (2:42)](evidence/d1/normal-walkthrough.mp4) | [Download MP4](evidence/d1/normal-walkthrough.mp4?raw=true) and a [room-lights-off test (0:28)](evidence/d1/no-room-lighting.mp4) | [Download MP4](evidence/d1/no-room-lighting.mp4?raw=true), explaining what I saw as I recorded. My comments about how it feels also come from the experience and feedback in Part C.
 
